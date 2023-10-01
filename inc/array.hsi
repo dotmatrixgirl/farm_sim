@@ -1,0 +1,108 @@
+#inspired by Kief’s arrays
+
+
+script, initArray, lookup, length=0, begin
+	variable(sli, i)
+	sli := createContainer
+	if (length>0) then (
+		for (i, 1, length) do (setParent(createContainer, sli))
+)
+	setSliceLookup (sli, lookup)
+end
+
+
+
+
+script, resizeArray, parent, length, begin
+	variable(i)
+	for (i, child count(parent), length) do (
+		setParent(createContainer, parent)
+	)
+end
+
+
+script, writeArray, parent, index, value, begin
+	variable(sli)
+	if (sliceIsValid(sliceChild (parent, index))) then (
+		sli := sliceChild (parent, index)
+		setSliceX (sli, value)
+		return (sli)
+	) else (
+		$99="Passed Index exceeds array length"
+		script error(99)
+	)
+end
+
+
+script, addArray, parent, value=0, begin
+	variable(sli)
+	sli := createContainer
+	setSliceX (sli, value)
+	setParent(sli, parent)
+	return (sli)
+end
+
+
+script, popArray, parent, index, begin
+	variable(sli)
+	if (sliceIsValid(sliceChild (parent, index))) then (
+		sli := sliceChild (parent, index)
+		freeSlice (sli)
+	) else (
+		$99="Passed Index exceeds array length"
+		script error(99)
+	)
+end
+
+
+
+#inspired by Kief’s arrays
+
+#todo: scripts that resize both x and y of array, and
+#add and remove/pop rows/columns?
+
+#creates a static 2d array and returns the parent slice.
+#it’s fairly readable via slice tree
+script, init2darray, lookup, height=1, width=1, begin
+	variable (sli, sli2, i)
+	#create slice that holds all  the other slices
+	sli := createContainer
+	setSliceLookup(sli, lookup)
+return (sli)	
+
+	#loop through slices and create all the slices for y position
+	for (i, 1, height) do (set parent (createContainer, sli))
+
+
+	#loop through y position slices and create/parent
+	#all the slices for x position to the y slices
+	sli := first child (sli)
+	while (sli) do (
+		for (i, 1, width) do (
+			sli2 := createContainer
+			set parent (sli2, sli) 
+			resizeExtra(sli2, 63)
+		)
+		sli := nextSibling(sli)
+	)
+end
+
+
+#sets and also returns value of 2d array in position x/y
+script, write2dArray, parent, x, y, extra, value, begin
+	variable (sli)
+	sli := sliceChild(sliceChild (parent, y), x)
+	return (setExtra(sli, extra, value))
+
+	#this will write stuff to g_debug.txt
+	#comment out if not debugging to slightly improve performance
+	dump slice tree (sli)
+end
+
+
+#gets value of 2d array in position x/y
+script, read2dArray, parent, x, y, extra, begin
+	variable (sli)
+	sli := sliceChild(sliceChild (parent, y), x)
+	return(getExtra(sli, extra))
+end

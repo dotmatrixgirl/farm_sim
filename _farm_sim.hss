@@ -1,0 +1,67 @@
+include, inc\array.hsi
+include, inc\autorun.hsi
+include, inc\bag.hsi
+#include, inc\crop.hsi
+#include, inc\daynight.hsi
+include, inc\default.hsi
+#include, inc\field.hsi
+#include, inc\item.hsi
+#include, inc\keypress.hsi
+include, inc\mainloop.hsi
+include, inc\menu.hsi
+#include, inc\message.hsi
+#include, inc\movement.hsi
+include, inc\util.hsi
+
+
+defineConstant, begin
+	#misc values set here for future proofing
+
+
+	#base capacity of bag. each level grows exponentially
+	#the player can hold one thing in addition
+	2, bagBase:tool
+	3, bagBase:item
+
+	#max level of bag
+	3, bag:levelMax
+
+
+	0, tool
+	1, item
+
+
+ 	#slice lookups that will be used to easily find slices.
+	#starts from a high number to avoid slice collection
+	#conflicts.
+
+
+	#slice lookups
+	400, sli:mainMenu
+
+
+	#array slice lookups
+	600, array:field
+	601, array:bagTool
+	602, array:bagItem
+	603, array:heldTool
+	604, array:heldItem
+	605, array:chestTool
+	606, array:chestItem
+	607, array:items
+
+
+	#used for array that keeps track of crops
+	0, field:id #which crop/item is here
+	1, field:age #how old crop is
+	2, field:lastWatered #last day number crop was watered
+end
+
+#please use sparingly for DMG’s sanity
+
+
+globalVariable, begin
+	50, bag:level
+	51, bag:toolSize
+	52, bag:itemSize
+end

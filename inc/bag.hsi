@@ -1,0 +1,28 @@
+script, initBag, begin
+	#how many the player can have in bag including in hand
+
+
+	bag:toolSize := bagBase:tool
+	bag:itemSize := bagBase:item
+	bag:level += 1
+	initArray(array:bagTool, bag:toolSize)
+	initArray(array:bagItem, bag:toolSize)
+end
+
+
+script, upgradeBag, begin
+	if (bag:level<=bag:levelMax) then (
+		$99="Bag is already max size. Make sure a check exists."
+		script error(99)
+		exit script
+	)
+	bag:level += 1
+
+
+	bag:toolSize := bag:toolSize^2
+	resizeArray(lookupSlice(array:bagTool), bag:toolSize)
+
+
+	bag:itemSize := bag:itemSize^2
+	resizeArray(lookupSlice(array:bagItem), bag:itemSize)
+end
