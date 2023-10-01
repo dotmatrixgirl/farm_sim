@@ -1,0 +1,17 @@
+script, mainloop, begin
+	while (true) do (
+		wait()
+		update()
+		game:tick += 1
+	)
+end
+
+script, update, begin
+	switch (game:state) do (
+	)
+	animate()
+end
+
+
+script, animate, begin
+end

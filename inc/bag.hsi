@@ -1,12 +1,11 @@
 script, initBag, begin
 	#how many the player can have in bag including in hand
-
-
 	bag:toolSize := bagBase:tool
 	bag:itemSize := bagBase:item
+
 	bag:level += 1
 	initArray(array:bagTool, bag:toolSize)
-	initArray(array:bagItem, bag:toolSize)
+	initArray(array:bagItem, bag:itemSize)
 end
 
 
@@ -18,11 +17,9 @@ script, upgradeBag, begin
 	)
 	bag:level += 1
 
-
-	bag:toolSize := bag:toolSize^2
+	bag:toolSize := bag:toolSize*2
 	resizeArray(lookupSlice(array:bagTool), bag:toolSize)
 
-
-	bag:itemSize := bag:itemSize^2
+	bag:itemSize := bag:itemSize*2
 	resizeArray(lookupSlice(array:bagItem), bag:itemSize)
 end

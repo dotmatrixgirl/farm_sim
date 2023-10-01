@@ -11,8 +11,6 @@ script, initArray, lookup, length=0, begin
 end
 
 
-
-
 script, resizeArray, parent, length, begin
 	variable(i)
 	for (i, child count(parent), length) do (

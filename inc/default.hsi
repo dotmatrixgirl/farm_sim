@@ -1,0 +1,22 @@
+plotscript, defNewGame, begin
+	initGame()
+	mainloop()
+
+	subscript, initGame, begin
+		generateItemList()
+		initBag()
+	end
+end
+
+plotscript, defLoadGame, begin
+	initGame()
+	mainloop()
+
+	subscript, initGame, begin
+		generateItemList()
+	end
+end
+
+plotscript, defKeypress, begin
+	if (keyIsPressed(key:r) && keyIsPressed(key:shift)) then (resetGame)
+end
