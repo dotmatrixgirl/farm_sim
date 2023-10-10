@@ -1,0 +1,25 @@
+script, generateCropList, begin
+	variable (sli, sli2, y)
+	if (lookupSlice(initArray(array:crops))) then (
+		freeslice(lookupSlice(array:crops))
+	)
+	sli := createContainer()
+	setSliceLookup(array:crops)
+	#the template for new crops:
+	#createCrop(id, time1, sprite1, time2, sprite2, time3, sprite3)
+
+	createCrop(0, 1, 1, 1, 1)
+
+	subscript, createCrop, id, time1, sprite1, time2, sprite2, time3=0, sprite3=0, begin
+		sli2 := initarray(sli)
+		setParent (sli2, sli)
+
+		appendArray (sli, id) #item/crop id
+		appendArray (sli, time1) #time to reach stage 1, from a seed
+		appendArray (sli, sprite1) #sprite for stage 1
+		appendArray (sli, time2) #time to reach stage 2
+		appendArray (sli, sprite2) #sprite for stage 2
+		appendArray (sli, time3) #time to reach stage 3
+		appendArray (sli, sprite3) #sprite for stage 3
+	end
+end

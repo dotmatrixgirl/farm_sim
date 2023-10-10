@@ -1,0 +1,17 @@
+script, fieldInit, begin
+	init3darray(array:field, 16, 16, 1)
+end
+
+script, fieldNewItem, x, y, item, begin
+	setZ3dArray (lookupSlice(array:field), x, y, 0)
+
+	if (item>field:nil && item<=field:cropEnd) then (
+		setZ3dArray (lookupSlice(array:field), x, y, 4)
+	) else (
+		setZ3dArray (lookupSlice(array:field), x, y, 1)
+	)
+end
+
+script, fieldWriteItem, x, y, z, value, begin
+	write3dArray (lookupSlice(array:field), x, y, z, value)
+end

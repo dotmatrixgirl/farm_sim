@@ -2,25 +2,27 @@
 #item list array and create a new one.
 #this array is where we will store the list of items.
 script, generateItemList, begin
+	variable (sli, sli2, y)
 	if (lookupSlice(initArray(array:items))) then (
 		freeslice(lookupSlice(array:items))
 	)
-	initArray(array:items)
-	#the template that can be used is commented out:
-	#id 
-	#create item(type, txtbxName, txtbxDesc, icon, stackable, attackId)
+	sli := createContainer()
+	setSliceLookup(array:items)
+	#the template for new items:
+	#createItem(id, txtbxName, txtbxDesc, icon, stackable, attackId)
 
+	createItem(0, 1, 2, 0, 0) #0 (dummy item)
 
-	#0 (dummy item)
-	createItem(item, 1, 2, 0, 0)
+	subscript, createItem, id, txtbxName, txtbxDesc, icon, sellable=false, stackable=false, attackId=-1, begin
+		sli2 := initarray(sli)
+		setParent (sli2, sli)
 
-	subscript, createItem, type, txtbxName, txtbxDesc, icon, sellable=false, stackable=false, attackId=-1, begin
-		addArray (lookupSlice(array:items, type)) #tool/item
-		addArray (lookupSlice(array:items, txtbxName)) #textbox with name
-		addArray (lookupSlice(array:items, txtbxDesc)) #textbox with description
-		addArray (lookupSlice(array:items, icon)) #icon/overworld sprite set id (walkabout)
-		addArray (lookupSlice(array:items, sellable)) #true/false, defaults to true
-		addArray (lookupSlice(array:items, stackable)) #true/false, defaults to false
-		addArray (lookupSlice(array:items, attackId)) #attack when used. defaults to no attack.
+		appendArray (sli, id) #tool/item
+		appendArray (sli, txtbxName) #textbox with name
+		appendArray (sli, txtbxDesc) #textbox with description
+		appendArray (sli, icon) #icon/overworld sprite set id (walkabout)
+		appendArray (sli, sellable) #true/false, defaults to true
+		appendArray (sli, stackable) #true/false, defaults to false
+		appendArray (sli, attackId) #attack when used. defaults to no attack.
 	end
 end

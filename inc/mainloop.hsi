@@ -4,14 +4,16 @@ script, mainloop, begin
 		update()
 		game:tick += 1
 	)
+	subscript, update, begin
+		switch (game:state) do (
+			case (state:title) do (
+				updateTitle
+				#animate()
+			)
+		)
+		
+	end
 end
-
-script, update, begin
-	switch (game:state) do (
-	)
-	animate()
-end
-
 
 script, animate, begin
 end

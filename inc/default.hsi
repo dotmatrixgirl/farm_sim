@@ -3,8 +3,13 @@ plotscript, defNewGame, begin
 	mainloop()
 
 	subscript, initGame, begin
-		generateItemList()
+		generateLists()
 		initBag()
+		$0="Sammi"
+		$0="they"
+		$1="them"
+		$2="their"
+		initTitle()
 	end
 end
 
@@ -13,8 +18,19 @@ plotscript, defLoadGame, begin
 	mainloop()
 
 	subscript, initGame, begin
-		generateItemList()
+		generateLists()
 	end
+end
+
+script, generateLists, begin
+	generateItemList()
+	generateCropList()
+end
+
+plotscript, mapautorun, id, begin
+	switch(id) do (
+		case (0) do ()
+	)
 end
 
 plotscript, defKeypress, begin

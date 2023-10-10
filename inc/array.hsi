@@ -1,13 +1,12 @@
 #inspired by Kief’s arrays
 
 
-script, initArray, lookup, length=0, begin
+script, initArray, parent, length=0, begin
 	variable(sli, i)
 	sli := createContainer
 	if (length>0) then (
 		for (i, 1, length) do (setParent(createContainer, sli))
-)
-	setSliceLookup (sli, lookup)
+	)
 end
 
 
@@ -32,7 +31,7 @@ script, writeArray, parent, index, value, begin
 end
 
 
-script, addArray, parent, value=0, begin
+script, appendArray, parent, value=0, begin
 	variable(sli)
 	sli := createContainer
 	setSliceX (sli, value)
@@ -53,44 +52,68 @@ script, popArray, parent, index, begin
 end
 
 
+#2d arrays
+script, init2dArray, lookup, x=1, y=0, begin
+	variable(sli, sli2, i, j)
+	sli := createContainer
+	if (y>0) then (
+		for (i, 1, y) do (
+			set parent (createContainer, sli)
+			if (x>0) then (
+				for (j, 1, x) do (
+					sli2 := createContainer
+					set parent (sli2, sli)
+				)
+			)
+		)
+	)
+	setSliceLookup (sli, lookup)
+end
 
-#inspired by Kief’s arrays
+script, write2dArray, parent, x, y, begin
+
+end
+
+script, append2dArray, parent, x, y, begin
+
+end
 
 #todo: scripts that resize both x and y of array, and
 #add and remove/pop rows/columns?
 
-#creates a static 2d array and returns the parent slice.
+#creates a static 3d array and returns the parent slice.
 #it’s fairly readable via slice tree
-script, init2darray, lookup, height=1, width=1, begin
-	variable (sli, sli2, i)
+script, init3darray, lookup, y=1, x=1, z=0, begin
+	variable (sli, sli2, i, j)
 	#create slice that holds all  the other slices
 	sli := createContainer
 	setSliceLookup(sli, lookup)
-return (sli)	
+	return (sli)
 
 	#loop through slices and create all the slices for y position
-	for (i, 1, height) do (set parent (createContainer, sli))
-
-
-	#loop through y position slices and create/parent
-	#all the slices for x position to the y slices
-	sli := first child (sli)
-	while (sli) do (
-		for (i, 1, width) do (
+	#and x position and sets z (depth)
+	for (i, 1, y) do (
+		set parent (createContainer, sli)
+		for (j, 1, x) do (
 			sli2 := createContainer
 			set parent (sli2, sli) 
-			resizeExtra(sli2, 63)
+			resizeExtra(sli2, z)
 		)
-		sli := nextSibling(sli)
 	)
 end
 
-
-#sets and also returns value of 2d array in position x/y
-script, write2dArray, parent, x, y, extra, value, begin
+script, setZ3dArray, parent, x, y, z, begin
 	variable (sli)
 	sli := sliceChild(sliceChild (parent, y), x)
-	return (setExtra(sli, extra, value))
+	resizeExtra(sli, z)
+end
+
+
+#sets and also returns value of 3d array in position x/y
+script, write3dArray, parent, x, y, z, value, begin
+	variable (sli)
+	sli := sliceChild(sliceChild (parent, y), x)
+	return (setExtra(sli, z, value))
 
 	#this will write stuff to g_debug.txt
 	#comment out if not debugging to slightly improve performance
@@ -98,9 +121,21 @@ script, write2dArray, parent, x, y, extra, value, begin
 end
 
 
-#gets value of 2d array in position x/y
-script, read2dArray, parent, x, y, extra, begin
+#appends and also returns value of 3d array in position x/y
+script, append3dArray, parent, x, y, value, begin
 	variable (sli)
 	sli := sliceChild(sliceChild (parent, y), x)
-	return(getExtra(sli, extra))
+	return (appendExtra(sli, value))
+
+	#this will write stuff to g_debug.txt
+	#comment out if not debugging to slightly improve performance
+	dump slice tree (sli)
+end
+
+
+#gets value of 3d array in position x/y
+script, read3dArray, parent, x, y, z, begin
+	variable (sli)
+	sli := sliceChild(sliceChild (parent, y), x)
+	return(getExtra(sli, z))
 end

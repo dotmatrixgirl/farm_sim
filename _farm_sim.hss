@@ -1,22 +1,27 @@
 include, inc\array.hsi
 include, inc\autorun.hsi
 include, inc\bag.hsi
-#include, inc\crop.hsi
-#include, inc\daynight.hsi
+include, inc\crop.hsi
 include, inc\default.hsi
-#include, inc\field.hsi
+include, inc\field.hsi
 include, inc\item.hsi
-#include, inc\keypress.hsi
+include, inc\keypress.hsi
 include, inc\mainloop.hsi
 include, inc\menu.hsi
-#include, inc\message.hsi
-#include, inc\movement.hsi
+include, inc\message.hsi
+include, inc\movement.hsi
+include, inc\palette.hsi
 include, inc\util.hsi
 
 
 defineConstant, begin
-	#misc values set here for future proofing
+	#state of game constants:
+	0,		state:suspend
+	1,		state:title
+	2,		state:resume
+	3,		state:menu
 
+	#misc values set here for future proofing
 
 	#base capacity of bag. each level grows by 2
 	#the player can hold one thing in addition
@@ -26,9 +31,30 @@ defineConstant, begin
 	#max level of bag
 	3,		bag:levelMax
 
-	#used for item definition, maybe be removed
-	0,		tool
-	1,		item
+	#used for array that keeps track of crops
+	0,		field:id #which crop/item is here
+	1,		field:age #how old crop is
+	2,		field:lastWatered #last day number crop was watered
+
+	0,		field:nil #nothing
+	1,		field:potato
+	2,		field:turnip
+	3,		field:eggplant
+
+	127,	field:cropEnd #last id of field data for crops
+
+	128,	field:log
+	129,	field:stump
+
+	130,	field:rock
+	131,	field:midRock
+	132,	field:bigRock
+
+	133,	field:fence
+	134,	field:fenceBad
+
+	135,	field:weed
+
 
  	#slice lookups that will be used to easily find slices.
 	#starts from a high number to avoid slice collection
@@ -46,11 +72,7 @@ defineConstant, begin
 	605,	array:chestTool
 	606,	array:chestItem
 	607,	array:items
-
-	#used for array that keeps track of crops
-	0,		field:id #which crop/item is here
-	1,		field:age #how old crop is
-	2,		field:lastWatered #last day number crop was watered
+	608,	array:crops
 end
 
 
